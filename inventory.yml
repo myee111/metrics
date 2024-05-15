@@ -1,0 +1,21 @@
+all:
+  children:
+    servers:
+      hosts:
+        ip-172-31-22-201.us-west-1.compute.internal:
+      vars:
+        firewall:
+          - service: pmcd
+            state: enabled
+        metrics_retention_days: 7
+    metrics_monitor:
+      hosts:
+        ip-172-31-18-95.us-west-1.compute.internal:
+      vars:
+        firewall:
+          - service: grafana
+            state: enabled
+        metrics_graph_service: yes
+        metrics_query_service: yes
+        metrics_retention_days: 7
+        metrics_monitored_hosts:  "{{ groups['servers'] }}"
